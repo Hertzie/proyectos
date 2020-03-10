@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Proyectos</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="presentNuevoProyecto()">
+        <ion-icon slot="" name="add">
+
+        </ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngFor="let proyecto of proyectos" [routerLink]="['/proyecto', proyecto.idProyecto]" color="light">
+    <!-- <ion-card-header>
+      <ion-card-subtitle>Fecha: {{proyecto.fechaCreacion.substr(0,10)}}</ion-card-subtitle>
+      <ion-card-title>{{proyecto.nombreProyecto}}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      {{proyecto.descripcionProyecto}}
+    </ion-card-content> -->
+    <proyecto-card [proyecto]="proyecto"></proyecto-card>
+  </ion-card>
+</ion-content>

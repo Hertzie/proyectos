@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>{{actividad.descripcionActividad}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cerrarModal()">
+        <ion-icon name="close-outline">
+
+        </ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="actividad.estatus != 'Terminada'">
+    <ion-fab-button (click)="presentarPromptComentario()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-list>
+    <ion-item *ngFor="let comentario of comentarios">
+      <ion-avatar slot="start">
+        <ion-img src="/assets/icon/Message-512.png"></ion-img>
+      </ion-avatar>
+      <ion-label>
+        <h2>{{comentario.fechaComentario.substr(0,10)}}</h2>
+        <p>{{comentario.contenido}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
