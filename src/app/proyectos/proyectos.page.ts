@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, ToastController } from '@ionic/angular';
 import Proyecto from '../models/Proyecto';
-
+import Parse from 'parse';
+import {appKey, jsKey, apiUrl, masterKey} from '../config/credenciales';
+import ParseService from '../services/parse.service';
 @Component({
   selector: 'app-proyectos',
   templateUrl: './proyectos.page.html',
@@ -9,12 +11,19 @@ import Proyecto from '../models/Proyecto';
 })
 export class ProyectosPage implements OnInit {
 
-  constructor(public alertController : AlertController, public toastController : ToastController) { }
+  constructor(public alertController : AlertController, public toastController : ToastController, private ps : ParseService) {
+  }
 
   public proyectos : Proyecto[] = [];
 
   ngOnInit() {
-    this.cargarProyectos();
+    //this.cargarProyectos();
+    this.ps.obtenerRest();
+  }
+
+  async obtenerProyectos(){
+    const data = await this.ps.obtenerTodos('B4aVehicle');
+    console.log(data); 
   }
 
   async presentarToastCreado(){
@@ -61,30 +70,41 @@ export class ProyectosPage implements OnInit {
     await alert.present();
   }
 
-  agregarNuevoProyecto(proyecto){
-    let idActual = JSON.parse(localStorage.getItem('idProyectoActual'));
-    let proyectosActuales = JSON.parse(localStorage.getItem('proyectos'));
+  async agregarNuevoProyecto(proyecto){
     let nuevoProyecto : Proyecto = {
-      idProyecto : ++idActual,
+      idProyecto : 0,
       nombreProyecto : proyecto.nombreProyecto,
       descripcionProyecto : proyecto.descripcionProyecto,
       fechaCreacion : new Date()
     };
 
-    proyectosActuales.push(nuevoProyecto);
-    localStorage.setItem('proyectos', JSON.stringify(proyectosActuales));
-    localStorage.setItem('idProyectoActual', JSON.stringify(idActual));
-    this.cargarProyectos();
-    this.presentarToastCreado();
+    // const creado = await this.ps.guardarProyecto(nuevoProyecto);
+    // if(creado){
+    //   this.proyectos = [];
+    //   this.cargarProyectos();
+    //   this.presentarToastCreado();
+    }
   }
 
-  cargarProyectos(){
-    this.proyectos = JSON.parse(localStorage.getItem('proyectos'));
-  }
+  // async cargarProyectos(){
+  //   const response = await this.ps.getProyectos();
+  //   if(response.length){
+  //     response.forEach( p => {
+  //       let proyecto : Proyecto = {
+  //         idProyecto : p.id,
+  //         nombreProyecto : p.attributes.nombreProyecto,
+  //         descripcionProyecto : p.attributes.descripcionProyecto,
+  //         fechaCreacion : p.attributes.fechaCreacion
+  //       };
+  
+  //       this.proyectos.push(proyecto);
+  //     });
+  //   }
+  // }
 
-  calcularActividadesProyecto(proyecto){
-    const actividades = JSON.parse(localStorage.getItem('actividades'));
-    let actividadesProyecto = actividades.filter( a => a.idProyecto == proyecto.idProyecto );
-  }
+  // calcularActividadesProyecto(proyecto){
+  //   const actividades = JSON.parse(localStorage.getItem('actividades'));
+  //   let actividadesProyecto = actividades.filter( a => a.idProyecto == proyecto.idProyecto );
+  // }
 
-}
+

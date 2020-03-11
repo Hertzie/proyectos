@@ -16,14 +16,6 @@
 
 <ion-content>
   <ion-card *ngFor="let proyecto of proyectos" [routerLink]="['/proyecto', proyecto.idProyecto]" color="light">
-    <!-- <ion-card-header>
-      <ion-card-subtitle>Fecha: {{proyecto.fechaCreacion.substr(0,10)}}</ion-card-subtitle>
-      <ion-card-title>{{proyecto.nombreProyecto}}</ion-card-title>
-    </ion-card-header>
-
-    <ion-card-content>
-      {{proyecto.descripcionProyecto}}
-    </ion-card-content> -->
     <proyecto-card [proyecto]="proyecto"></proyecto-card>
   </ion-card>
 </ion-content>

@@ -22,6 +22,10 @@ const routes: Routes = [
   {
     path: 'comentarios',
     loadChildren: () => import('./comentarios/comentarios.module').then( m => m.ComentariosPageModule)
+  },
+  {
+    path: 'actividades',
+    loadChildren: () => import('./actividades/actividades.module').then( m => m.ActividadesPageModule)
   }
 ];
 

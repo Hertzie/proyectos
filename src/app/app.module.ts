@@ -10,7 +10,8 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ComentariosPage } from './comentarios/comentarios.page';
 import {LongPressModule} from 'ionic-long-press';
-
+import ParseService from './services/parse.service';
+import ProyectosService from './services/proyectos.service';
 
 
 @NgModule({
@@ -25,6 +26,8 @@ import {LongPressModule} from 'ionic-long-press';
   providers: [
     StatusBar,
     SplashScreen,
+    ProyectosService,
+    ParseService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

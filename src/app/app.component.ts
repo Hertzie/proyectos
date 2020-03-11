@@ -17,8 +17,15 @@ export class AppComponent implements OnInit {
       title: "Proyectos",
       url: '/proyectos',
       icon: 'archive'
+    },
+    {
+      title: 'Actividades',
+      url: '/actividades',
+      icon: 'checkmark'
     }
   ];
+
+  public cliente : any;
 
   constructor(
     private platform: Platform,
@@ -40,6 +47,8 @@ export class AppComponent implements OnInit {
     if (path !== undefined) {
       this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
     }
+
+    
 
     this.inicializarStorage();
   }

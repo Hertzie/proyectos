@@ -5,6 +5,7 @@ import Comentario from '../models/Comentario';
 import Actividad from '../models/Actividad';
 import { ToastController, AlertController, ModalController } from '@ionic/angular';
 import { ComentariosPage } from '../comentarios/comentarios.page';
+import ProyectosService from '../services/proyectos.service';
 
 
 @Component({
@@ -19,16 +20,32 @@ export class ProyectoPage implements OnInit {
   public actividades : Actividad[] = [];
 
 
-  constructor(private activatedRoute : ActivatedRoute, private prompt : AlertController, private toast : ToastController, private modalController : ModalController) { }
+  constructor(private activatedRoute : ActivatedRoute, private prompt : AlertController, private toast : ToastController, private modalController : ModalController, private ps : ProyectosService) { 
+    this.idProyecto = this.activatedRoute.snapshot.paramMap.get('id');
+    this.cargarProyecto();
+  }
 
   ngOnInit() {
-    this.idProyecto = this.activatedRoute.snapshot.paramMap.get('id');
-    let proyectos = JSON.parse(localStorage.getItem('proyectos'));
-    let proyecto = proyectos.filter( p => p.idProyecto == this.idProyecto );
-    this.proyecto = proyecto[0];
+    
+    //let proyectos = JSON.parse(localStorage.getItem('proyectos'));
+    //let proyecto = proyectos.filter( p => p.idProyecto == this.idProyecto );
+    //this.proyecto = proyecto[0];
+    //console.log("Id proyecto: ", this.idProyecto);
+    //this.cargarProyecto(this.idProyecto);
+    //this.cargarActividadesProyecto();
+    //console.log("Actividades: ", this.actividades);
+  }
 
-    this.cargarActividadesProyecto();
-    console.log("Actividades: ", this.actividades);
+  async cargarProyecto(){
+    const proyecto = await this.ps.obtenerProyecto(this.idProyecto);
+    this.proyecto = {
+      idProyecto : proyecto.id,
+      nombreProyecto : proyecto.attributes.nombreProyecto,
+      descripcionProyecto : proyecto.attributes.descripcionProyecto,
+      fechaCreacion : proyecto.attributes.fechaCreacion
+    };
+
+    console.log("Proyecto: ", this.proyecto);
   }
 
   cargarActividadesProyecto(){
